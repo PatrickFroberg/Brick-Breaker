@@ -1,76 +1,124 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    public int Bricks;
     public Brick BrickPrefab;
-    public int LineCount = 6;
     public Rigidbody Ball;
-
-    public Text ScoreText;
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI HighScoreText;
     public GameObject GameOverText;
-    
-    private bool m_Started = false;
-    private int m_Points;
-    
-    private bool m_GameOver = false;
 
-    
-    // Start is called before the first frame update
+    private Paddle _paddle;
+    private int _maxLines;
+    private int _lines;
+    private int[] _pointCountArray;
+    private int _points;
+    private bool _isGameStarted = false;
+    private bool _isGameOver = false;
+
     void Start()
     {
+        _lines = 0;
+        _maxLines = 8;
+        _pointCountArray = new[] { 1, 1, 2, 2, 5, 5, 10, 10 };
+
+        _paddle = GameObject.Find(nameof(Paddle)).GetComponent<Paddle>();
+
+        SetLevel();
+        GetHighScore();
+    }
+
+    private void Update()
+    {
+        if (!_isGameStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                _isGameStarted = true;
+                AudioManager.Instance.PlayBounceSound();
+                FireOffBall();
+            }
+        }
+        else if (_isGameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AudioManager.Instance.PlayStartGameSound();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                AudioManager.Instance.PlayBtnSound();
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+    private void FireOffBall()
+    {
+        float randomDirection = Random.Range(-1.0f, 1.0f);
+        Vector3 forceDir = new Vector3(randomDirection, 1, 0);
+        forceDir.Normalize();
+
+        Ball.transform.SetParent(null);
+        Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+    }
+
+    public void SetLevel()
+    {
+        Bricks = 0;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
-        for (int i = 0; i < LineCount; ++i)
+
+        IncreaseDifficulty();
+
+        for (int i = 0; i < _lines; ++i)
         {
             for (int x = 0; x < perLine; ++x)
             {
                 Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
-                brick.PointValue = pointCountArray[i];
+                brick.PointValue = _pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
+
+                Bricks++;
             }
         }
     }
 
-    private void Update()
+    private void IncreaseDifficulty()
     {
-        if (!m_Started)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                m_Started = true;
-                float randomDirection = Random.Range(-1.0f, 1.0f);
-                Vector3 forceDir = new Vector3(randomDirection, 1, 0);
-                forceDir.Normalize();
+        if (_lines < _maxLines)
+            _lines += 2;
 
-                Ball.transform.SetParent(null);
-                Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
-            }
-        }
-        else if (m_GameOver)
+        if (_isGameStarted)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
+            Ball.GetComponent<Ball>().IncreaseMaxSpeed();
+            _paddle.IncreaseMaxSpeed();
         }
     }
-
-    void AddPoint(int point)
+    private void GetHighScore()
     {
-        m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        HighScoreText.text = HighScoreManager.Instance.GetTopHighScore();
+    }
+
+    private void AddPoint(int point)
+    {
+        _points += point;
+        ScoreText.text = $"Score : {_points}";
+
+        Bricks--;
     }
 
     public void GameOver()
     {
-        m_GameOver = true;
+        _isGameOver = true;
+        HighScoreManager.Instance.SetHighScore(_points);
         GameOverText.SetActive(true);
     }
 }

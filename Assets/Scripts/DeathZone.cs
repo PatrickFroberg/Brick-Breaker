@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class DeathZone : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        AudioManager.Instance.PlayGameOverSound();
         Destroy(other.gameObject);
         Manager.GameOver();
     }
