@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] Vector3 _velocity;
+    [SerializeField] private Vector3 _velocity;
+    [SerializeField] private float _maxSpeed;
 
-    private float _maxSpeed;
     private float _speedMultiplier;
 
     private Rigidbody _rb;

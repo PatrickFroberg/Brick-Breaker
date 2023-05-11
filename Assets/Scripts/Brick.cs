@@ -10,9 +10,12 @@ public class Brick : MonoBehaviour
     
     public int PointValue;
 
+    private BoxCollider _collider;
+
     void Start()
     {
         var renderer = GetComponentInChildren<Renderer>();
+        _collider = GetComponent<BoxCollider>();
 
         MaterialPropertyBlock block = new MaterialPropertyBlock();
         switch (PointValue)
@@ -35,8 +38,9 @@ public class Brick : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        _collider.enabled = false;
         onDestroyed.Invoke(PointValue);
-        
+
         //slight delay to be sure the ball have time to bounce
         Destroy(gameObject, 0.2f);
     }

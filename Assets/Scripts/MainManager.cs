@@ -7,12 +7,12 @@ public class MainManager : MonoBehaviour
 {
     public int Bricks;
     public Brick BrickPrefab;
-    public Rigidbody Ball;
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI HighScoreText;
     public GameObject GameOverText;
 
-    private Paddle _paddle;
+    public Rigidbody _ball;
+    private Paddle _player;
     private int _maxLines;
     private int _lines;
     private int[] _pointCountArray;
@@ -26,7 +26,8 @@ public class MainManager : MonoBehaviour
         _maxLines = 8;
         _pointCountArray = new[] { 1, 1, 2, 2, 5, 5, 10, 10 };
 
-        _paddle = GameObject.Find(nameof(Paddle)).GetComponent<Paddle>();
+        _player = GameObject.Find(nameof(Paddle)).GetComponent<Paddle>();
+        _ball = GameObject.Find(nameof(Ball)).GetComponent<Rigidbody>();
 
         SetLevel();
         GetHighScore();
@@ -65,8 +66,8 @@ public class MainManager : MonoBehaviour
         Vector3 forceDir = new Vector3(randomDirection, 1, 0);
         forceDir.Normalize();
 
-        Ball.transform.SetParent(null);
-        Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+        _ball.transform.SetParent(null);
+        _ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
     }
 
     public void SetLevel()
@@ -98,8 +99,8 @@ public class MainManager : MonoBehaviour
 
         if (_isGameStarted)
         {
-            Ball.GetComponent<Ball>().IncreaseMaxSpeed();
-            _paddle.IncreaseMaxSpeed();
+            _ball.GetComponent<Ball>().IncreaseMaxSpeed();
+            _player.IncreaseMaxSpeed();
         }
     }
     private void GetHighScore()
