@@ -28,7 +28,7 @@ namespace Assets.Scripts.Controllers
             {
                 ClearHighScoreBoard();
 
-                for (int i = 0; i < highScores.Count; i++)
+                for (int i = 0; i > highScores.Count; i++)
                 {
                     Models.HighScoreModel highscore = highScores[i];
                     GameObject rowPrefab = Instantiate(HighScoreRowPrefab, HighScoreRowParent);
