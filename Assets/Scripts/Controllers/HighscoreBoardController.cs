@@ -24,20 +24,20 @@ namespace Assets.Scripts.Controllers
         {
             var highScores = HighScoreManager.Instance.GetHighScores();
 
-            if (highScores.FirstOrDefault() == null)
-                return;
-
-            ClearHighScoreBoard();
-
-            for (int i = 0; i < highScores.Count; i++)
+            if (highScores.FirstOrDefault() != null)
             {
-                Models.HighScoreModel highscore = highScores[i];
-                GameObject rowPrefab = Instantiate(HighScoreRowPrefab, HighScoreRowParent);
-                TextMeshProUGUI[] texts = rowPrefab.GetComponentsInChildren<TextMeshProUGUI>();
+                ClearHighScoreBoard();
 
-                texts[0].text = (i + 1).ToString();
-                texts[1].text = highscore.Name;
-                texts[2].text = highscore.Score.ToString();
+                for (int i = 0; i < highScores.Count; i++)
+                {
+                    Models.HighScoreModel highscore = highScores[i];
+                    GameObject rowPrefab = Instantiate(HighScoreRowPrefab, HighScoreRowParent);
+                    TextMeshProUGUI[] texts = rowPrefab.GetComponentsInChildren<TextMeshProUGUI>();
+
+                    texts[0].text = (i + 1).ToString();
+                    texts[1].text = highscore.Name;
+                    texts[2].text = highscore.Score.ToString();
+                }
             }
         }
 
