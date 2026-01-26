@@ -111,7 +111,7 @@ public class MainManager : MonoBehaviour
     private void AddPoint(int point)
     {
         _points += point;
-        ScoreText.text = $"Score : {_points}";
+        ScoreText.text = $"Score: {_points}";
 
         Bricks--;
     }

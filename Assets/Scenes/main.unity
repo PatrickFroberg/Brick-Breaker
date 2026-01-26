@@ -1795,7 +1795,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Best Score : Name : 0'
+  m_text: '#1 Name: 0000'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a3f71e6b37810e488093ed35606c0e2, type: 2}
   m_sharedMaterial: {fileID: 2289061253954389700, guid: 9a3f71e6b37810e488093ed35606c0e2, type: 2}

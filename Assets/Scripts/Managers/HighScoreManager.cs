@@ -15,7 +15,7 @@ namespace Assets.Scripts.Managers
 
         private List<HighScoreModel> _highScores;
 
-        private const string _FILE_PATH = "/highscore.json";
+        private const string _FILE_PATH = "/thenewhighscore.json";
 
         void Awake()
         {
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Managers
             if (_highScores.FirstOrDefault() == null)
                 return "No Highscore!";
 
-            return $"Highscore - {_highScores.FirstOrDefault().Name}: {_highScores.FirstOrDefault().Score}";
+            return $"#1 {_highScores.FirstOrDefault().Name}: {_highScores.FirstOrDefault().Score}";
         }
 
 
