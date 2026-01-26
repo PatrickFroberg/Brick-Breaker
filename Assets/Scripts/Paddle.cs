@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Paddle : MonoBehaviour
 {
@@ -6,6 +8,7 @@ public class Paddle : MonoBehaviour
 
     private float _speedMultiplier;
     private float _maxMovement;
+    private Vector2 _moveInput;
     
     void Start()
     {
@@ -14,12 +17,21 @@ public class Paddle : MonoBehaviour
         _maxMovement = 2.0f;
     }
 
+    public void Move(InputAction.CallbackContext context)
+    {
+        _moveInput = context.ReadValue<Vector2>();
+
+        Debug.Log($"Move Input: {_moveInput}");
+    }
+
     void Update()
     {
-        float input = Input.GetAxis("Horizontal");
+        //float input = Input.GetAxisRaw("Horizontal");
 
         Vector3 pos = transform.position;
-        pos.x += input * _speed * Time.deltaTime;
+        //pos.x += input * _speed * Time.deltaTime;
+        pos.x += _moveInput.x * _speed * Time.deltaTime;
+
 
         if (pos.x > _maxMovement)
             pos.x = _maxMovement;

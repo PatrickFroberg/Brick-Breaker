@@ -1,7 +1,10 @@
 ﻿using Assets.Scripts.Managers;
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Controllers
@@ -16,6 +19,17 @@ namespace Assets.Scripts.Controllers
         private void Start()
         {
             _errorText = ErrorTextGameObject.GetComponent<TextMeshProUGUI>();
+            StartCoroutine(FocusNameInputNextFrame());
+        }
+
+        public void OnStartGameButtonPushed(InputAction.CallbackContext callbackContext)
+        {
+            // Important if this action can fire multiple phases
+            if (!callbackContext.performed) 
+                return;
+
+            Debug.Log("Start Game Button Pushed");
+            StartGame();
         }
 
         public void StartGame()
@@ -26,7 +40,22 @@ namespace Assets.Scripts.Controllers
                 SceneManager.LoadScene(1);
             }
             else
+            {
                 AudioManager.Instance.PlayErrorSound();
+                StartCoroutine(FocusNameInputNextFrame());
+            }
+        }
+
+        private IEnumerator FocusNameInputNextFrame()
+        {
+            yield return null; // wait one frame so EventSystem finishes button selection
+
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(PlayerNameInput.gameObject);
+
+            PlayerNameInput.Select();
+            //PlayerNameInput.ActivateInputField();
+            //PlayerNameInput.caretPosition = PlayerNameInput.text.Length;
         }
 
         private bool isValidName(string name)

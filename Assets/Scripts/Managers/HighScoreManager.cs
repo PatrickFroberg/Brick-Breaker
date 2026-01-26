@@ -43,7 +43,7 @@ namespace Assets.Scripts.Managers
             if (_highScores.FirstOrDefault() == null)
                 return "No Highscore!";
 
-            return $"Best Score : {_highScores.FirstOrDefault().Name}: {_highScores.FirstOrDefault().Score}";
+            return $"Highscore - {_highScores.FirstOrDefault().Name}: {_highScores.FirstOrDefault().Score}";
         }
 
 

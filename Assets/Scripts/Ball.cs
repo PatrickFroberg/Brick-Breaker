@@ -31,7 +31,7 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionExit(Collision other)
     {
-        _velocity = _rb.velocity;
+        _velocity = _rb.linearVelocity;
 
         //after a collision we accelerate a bit
         _velocity += _velocity.normalized * 0.01f;
@@ -48,6 +48,6 @@ public class Ball : MonoBehaviour
             _velocity = _velocity.normalized * _maxSpeed;
         }
 
-        _rb.velocity = _velocity;
+        _rb.linearVelocity = _velocity;
     }
 }

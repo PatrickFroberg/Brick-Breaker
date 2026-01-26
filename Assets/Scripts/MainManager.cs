@@ -1,6 +1,7 @@
 using Assets.Scripts.Managers;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class MainManager : MonoBehaviour
@@ -33,30 +34,29 @@ public class MainManager : MonoBehaviour
         GetHighScore();
     }
 
-    private void Update()
+    public void Shoot(InputAction.CallbackContext callbackContext)
     {
+        Debug.Log("SHOOT!");
+
         if (!_isGameStarted)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _isGameStarted = true;
-                AudioManager.Instance.PlayBounceSound();
-                FireOffBall();
-            }
+            _isGameStarted = true;
+            AudioManager.Instance.PlayBounceSound();
+            FireOffBall();
         }
-        else if (_isGameOver)
+        else if(_isGameOver)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                AudioManager.Instance.PlayStartGameSound();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
+            AudioManager.Instance.PlayStartGameSound();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);   
+        }
+    }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                AudioManager.Instance.PlayBtnSound();
-                SceneManager.LoadScene(0);
-            }
+    public void Exit(InputAction.CallbackContext callbackContext)
+    {
+        if (_isGameOver)
+        {
+            AudioManager.Instance.PlayBtnSound();
+            SceneManager.LoadScene(0);
         }
     }
 
