@@ -15,7 +15,7 @@ namespace Assets.Scripts.Managers
 
         private List<HighScoreModel> _highScores;
 
-        private const string _FILE_PATH = "/thenewhighscore.json";
+        private const string _FILE_PATH = "/highscorefile.json";
 
         void Awake()
         {
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Managers
             return _highScores.ToList();
         }
 
-        public string GetTopHighScore()
+        public string GetHighScoreText()
         {
             LoadHighScore();
 
@@ -46,7 +46,15 @@ namespace Assets.Scripts.Managers
             return $"#1 {_highScores.FirstOrDefault().Name}: {_highScores.FirstOrDefault().Score}";
         }
 
+        public int GetHighScore()
+        {
+            LoadHighScore();
 
+            if (_highScores.FirstOrDefault() == null)
+                return 0;
+
+            return _highScores.FirstOrDefault().Score;
+        }
 
         public void SetHighScore(int score)
         {

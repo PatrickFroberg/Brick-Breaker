@@ -60,10 +60,10 @@ namespace Assets.Scripts.Controllers
 
         private bool isValidName(string name)
         {
-            if (string.IsNullOrEmpty(name))
-                SetErrorMessage("Name can't be empty");
-            else if (name.Length < 3)
-                SetErrorMessage("Name must be at least 3 characters long");
+            if (string.IsNullOrWhiteSpace(name))
+                SetErrorMessage("Enter a name.");
+            else if (name.Length < 3 || name.Length > 12)
+                SetErrorMessage("Name must be 3–12 characters.");
             else
             {
                 HighScoreManager.Instance.CurrentPlayerName = PlayerNameInput.text;

@@ -35,8 +35,8 @@ namespace Assets.Scripts.Controllers
                     TextMeshProUGUI[] texts = rowPrefab.GetComponentsInChildren<TextMeshProUGUI>();
 
                     texts[0].text = (i + 1).ToString();
-                    texts[1].text = highscore.Name;
-                    texts[2].text = highscore.Score.ToString();
+                    texts[1].text = highscore.Score.ToString();
+                    texts[2].text = highscore.Name;
                 }
             }
         }

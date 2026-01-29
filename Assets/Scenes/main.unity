@@ -320,11 +320,11 @@ MonoBehaviour:
   m_text: 'GAME OVER
 
 
-    Press Shoot to Restart
+    Press Shoot to restart
 
 
-    Press Esc / Start to go back
-    to Start Menu'
+    Press Esc/Start for Start
+    Menu'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a3f71e6b37810e488093ed35606c0e2, type: 2}
   m_sharedMaterial: {fileID: 2289061253954389700, guid: 9a3f71e6b37810e488093ed35606c0e2, type: 2}
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -453,7 +453,8 @@ MonoBehaviour:
   BrickPrefab: {fileID: 897975713663390409, guid: 63f25b9733d2bcd4fa2ff6de1264c739, type: 3}
   ScoreText: {fileID: 1792602705}
   HighScoreText: {fileID: 1659251057}
-  GameOverText: {fileID: 1695636976}
+  GameOverText: {fileID: 185201754}
+  GameOverBoard: {fileID: 1695636976}
   _ball: {fileID: 0}
 --- !u!114 &450625943
 MonoBehaviour:
@@ -1884,6 +1885,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1695636977}
+  - component: {fileID: 1695636978}
   m_Layer: 5
   m_Name: GameOverObject
   m_TagString: Untagged
@@ -1912,6 +1914,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1695636978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695636976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe66f95ff353d7748b17607fd4d67e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverBoardController
+  aaa: {fileID: 0}
 --- !u!1 &1792602703
 GameObject:
   m_ObjectHideFlags: 0

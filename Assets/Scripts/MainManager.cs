@@ -10,7 +10,8 @@ public class MainManager : MonoBehaviour
     public Brick BrickPrefab;
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI HighScoreText;
-    public GameObject GameOverText;
+    public TextMeshProUGUI GameOverText;
+    public GameObject GameOverBoard;
 
     public Rigidbody _ball;
     private Paddle _player;
@@ -20,6 +21,10 @@ public class MainManager : MonoBehaviour
     private int _points;
     private bool _isGameStarted = false;
     private bool _isGameOver = false;
+
+    const string GAME_OVER_BOARD_TEXT = "Press Shoot to restart\n\nPress Esc/Start for Start Menu";
+    const string GAME_OVER_NEW_HIGHSCORE_TEXT = "NEW HIGHSCORE!\n\n";
+    const string GAME_OVER_TEXT = "GAME OVER\n\n";
 
     void Start()
     {
@@ -31,8 +36,9 @@ public class MainManager : MonoBehaviour
         _ball = GameObject.Find(nameof(Ball)).GetComponent<Rigidbody>();
 
         SetLevel();
-        GetHighScore();
+        SetHighScoreDisplay();
     }
+
 
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
@@ -103,11 +109,6 @@ public class MainManager : MonoBehaviour
             _player.IncreaseMaxSpeed();
         }
     }
-    private void GetHighScore()
-    {
-        HighScoreText.text = HighScoreManager.Instance.GetTopHighScore();
-    }
-
     private void AddPoint(int point)
     {
         _points += point;
@@ -116,10 +117,26 @@ public class MainManager : MonoBehaviour
         Bricks--;
     }
 
+    private void SetHighScoreDisplay()
+    {
+        HighScoreText.text = HighScoreManager.Instance.GetHighScoreText();
+    }
+
     public void GameOver()
     {
+        var highScore = HighScoreManager.Instance.GetHighScore();
+        var gameOverText = GAME_OVER_TEXT;
+
         _isGameOver = true;
         HighScoreManager.Instance.SetHighScore(_points);
-        GameOverText.SetActive(true);
+
+        if (_points > highScore)
+        {
+            gameOverText = GAME_OVER_NEW_HIGHSCORE_TEXT;
+            SetHighScoreDisplay();
+        }
+
+        GameOverText.text = gameOverText + GAME_OVER_BOARD_TEXT;
+        GameOverBoard.SetActive(true);
     }
 }
